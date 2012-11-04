@@ -58,5 +58,5 @@ class Actions(object):
         return self._executed
 
     def execute(self):
-        BuiltIn().run_keyword(*self._random.any_of(self._actions))
         self._executed = True
+        BuiltIn().run_keyword(*self._random.any_of(self._actions))
