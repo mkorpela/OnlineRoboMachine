@@ -1,0 +1,29 @@
+*** Settings ***
+Library           OnlineRoboMachine
+
+*** Test Cases ***
+testii
+    Begin Actions
+    act    Foo    njet
+    act    Bar    njet
+    End Actions
+    Execute MBT
+
+*** Keywords ***
+Foo
+    [Arguments]    ${bar}
+    Log    FOO!
+    Begin Actions
+    act    Foo    ${bar}
+    act    Bar    ok
+    Run Keyword If    '${bar}' == 'ok'    act    No Operation
+    End Actions
+
+Bar
+    [Arguments]    ${foo}
+    Log    BAR!
+    Begin Actions
+    act    Foo    ok
+    act    Bar    ${foo}
+    Run Keyword If    '${foo}' == 'ok'    act    No Operation
+    End Actions
