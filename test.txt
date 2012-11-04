@@ -4,8 +4,8 @@ Library           OnlineRoboMachine
 *** Test Cases ***
 testii
     Begin Actions
-    act    Foo    njet
-    act    Bar    njet
+      act    Foo    njet
+      act    Bar    njet
     End Actions
     Execute MBT
 
