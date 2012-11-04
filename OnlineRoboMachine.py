@@ -16,22 +16,42 @@ class OnlineRoboMachine(object):
         return time.time()
 
     def begin_actions(self):
+        """
+        Marks the start of a new actions block.
+        """
         assert self._actions is None or self._actions.is_complete()
         self._actions = Actions(self)
 
-    def act(self, *args):
-        self._actions.add(args)
+    def act(self, keyword, *args):
+        """
+        Create a new action in the action block.
+
+        """
+        self._actions.add([keyword]+list(args))
 
     def end_actions(self):
+        """
+        Marks the end of the action block.
+        """
         self._actions.complete()
 
-    def execute_mbt(self):
+    def execute_MBT(self):
+        """
+        Executes MBT test.
+
+        Should be only called once.
+        """
         logger.info('Executing random walk with seed %f' % self._seed)
         self._random = Random(self._seed)
         while not self._actions.is_executed():
             self._actions.execute()
 
-    def any_of(self, choices):
+    def any_of(self, *choices):
+        """
+        Select randomly one of the choices given as an arguments
+
+        Can be called only after Execute MBT has been called.
+        """
         assert self._random is not None
         return self._random.choice(choices)
 
@@ -59,4 +79,4 @@ class Actions(object):
 
     def execute(self):
         self._executed = True
-        BuiltIn().run_keyword(*self._random.any_of(self._actions))
+        BuiltIn().run_keyword(*self._random.any_of(*self._actions))
