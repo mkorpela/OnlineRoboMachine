@@ -14,16 +14,16 @@ Foo
     [Arguments]    ${bar}
     Log    FOO!
     Begin Actions
-    act    Foo    ${bar}
-    act    Bar    ok
-    Run Keyword If    '${bar}' == 'ok'    act    No Operation
+      act    Log  moi  ==>  Foo     ${bar}
+      act    Log  hei  ==>  Bar     ok
+      act if    '${bar}' == 'ok'    No Operation
     End Actions
 
 Bar
     [Arguments]    ${foo}
     Log    BAR!
     Begin Actions
-    act    Foo    ok
-    act    Bar    ${foo}
-    Run Keyword If    '${foo}' == 'ok'    act    No Operation
+      act        Foo    ok
+      act        Log  jotain        ==>       Bar    ${foo}
+      act if    '${foo}' == 'ok'    No Operation
     End Actions

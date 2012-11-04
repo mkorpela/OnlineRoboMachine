@@ -1,3 +1,4 @@
+from itertools import takewhile
 from random import Random
 from robot.libraries.BuiltIn import BuiltIn
 from robot.api import logger
@@ -28,6 +29,14 @@ class OnlineRoboMachine(object):
 
         """
         self._actions.add([keyword]+list(args))
+
+    def act_if(self, condition, keyword, *args):
+        """
+        Create a new action in the action block if the condition holds.
+
+        """
+        if BuiltIn()._is_true(condition):
+            self.act(keyword, *args)
 
     def end_actions(self):
         """
@@ -79,4 +88,10 @@ class Actions(object):
 
     def execute(self):
         self._executed = True
-        BuiltIn().run_keyword(*self._random.any_of(*self._actions))
+        action = self._random.any_of(*self._actions)
+        if '==>' in action:
+            first = list(takewhile(lambda x: x != '==>', action))
+            BuiltIn().run_keyword(*first)
+            BuiltIn().run_keyword(*action[len(first)+1:])
+        else:
+            BuiltIn().run_keyword(*action)
