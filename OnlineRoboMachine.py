@@ -19,8 +19,7 @@ import time
 
 class OnlineRoboMachine(object):
 
-    def __init__(self, seed=None):
-        self._seed = self._get_seed(seed)
+    def __init__(self):
         self._random = None
         self._actions = None
 
@@ -62,16 +61,20 @@ class OnlineRoboMachine(object):
         """
         self._actions.complete()
 
-    def execute_MBT(self):
+    def execute_random_walk(self, max_actions=-1, seed=None):
         """
         Executes MBT test.
 
         Should be only called once.
         """
-        logger.info('Executing random walk with seed %f' % self._seed)
-        self._random = Random(self._seed)
-        while not self._actions.is_executed():
+        seed = self._get_seed(seed)
+        max_actions = int(max_actions)
+        logger.info('Executing random walk with seed %f' % seed)
+        self._random = Random(seed)
+        while not self._actions.is_executed() and max_actions != 0:
             self._actions.execute()
+            max_actions -= 1
+
 
     def any_of(self, *choices):
         """

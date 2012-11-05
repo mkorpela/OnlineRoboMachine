@@ -4,26 +4,25 @@ Library           OnlineRoboMachine
 *** Test Cases ***
 testii
     Begin Actions
-      act    ==>  Foo    njet
-      act    ==>  Bar    njet
+    act    ==>    Foo    njet
+    act    ==>    Bar    njet
     End Actions
-    Execute MBT
+    Execute Random Walk    max_actions=2000    seed=1352136190.842928
 
 *** Keywords ***
 Foo
     [Arguments]    ${bar}
     Log    FOO!
     Begin Actions
-      act                 Log  moi  ==>  Foo     ${bar}
-      act                 Log  hei  ==>  Bar     ok
-      act if    '${bar}' == 'ok'    ==>  No Operation
+    act    Log    moi    ==>    Foo    ${bar}
+    act    Log    hei    ==>    Bar    ok
     End Actions
 
 Bar
     [Arguments]    ${foo}
     Log    BAR!
     Begin Actions
-      act                           ==>       Foo    ok
-      act        Log  jotain        ==>       Bar    ${foo}
-      act if    '${foo}' == 'ok'    ==>       No Operation
+    act    ==>    Foo    ok
+    act    Log    jotain    ==>    Bar    ${foo}
+    act if    '${foo}' == 'ok'    Log    jiihaa    ==>    Bar    ${foo}
     End Actions
