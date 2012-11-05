@@ -36,12 +36,17 @@ class OnlineRoboMachine(object):
         assert self._actions is None or self._actions.is_complete()
         self._actions = Actions(self)
 
-    def act(self, keyword, *args):
+    def act(self, *args):
         """
         Create a new action in the action block.
 
+        args must contain ==> symbol
+        act  TRANSITION  ==>  END STATE
+        TRANSITION is a keyword call - can be omitted
+        END STATE is a keyword call
         """
-        self._actions.add([keyword]+list(args))
+        assert len(args) - 1 > len(list(takewhile(lambda x: x != '==>', args)))
+        self._actions.add(args)
 
     def act_if(self, condition, keyword, *args):
         """
@@ -102,9 +107,7 @@ class Actions(object):
     def execute(self):
         self._executed = True
         action = self._random.any_of(*self._actions)
-        if '==>' in action:
-            first = list(takewhile(lambda x: x != '==>', action))
+        first = list(takewhile(lambda x: x != '==>', action))
+        if first:
             BuiltIn().run_keyword(*first)
-            BuiltIn().run_keyword(*action[len(first)+1:])
-        else:
-            BuiltIn().run_keyword(*action)
+        BuiltIn().run_keyword(*action[len(first)+1:])

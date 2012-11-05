@@ -4,8 +4,8 @@ Library           OnlineRoboMachine
 *** Test Cases ***
 testii
     Begin Actions
-      act    Foo    njet
-      act    Bar    njet
+      act    ==>  Foo    njet
+      act    ==>  Bar    njet
     End Actions
     Execute MBT
 
@@ -14,16 +14,16 @@ Foo
     [Arguments]    ${bar}
     Log    FOO!
     Begin Actions
-      act    Log  moi  ==>  Foo     ${bar}
-      act    Log  hei  ==>  Bar     ok
-      act if    '${bar}' == 'ok'    No Operation
+      act                 Log  moi  ==>  Foo     ${bar}
+      act                 Log  hei  ==>  Bar     ok
+      act if    '${bar}' == 'ok'    ==>  No Operation
     End Actions
 
 Bar
     [Arguments]    ${foo}
     Log    BAR!
     Begin Actions
-      act        Foo    ok
+      act                           ==>       Foo    ok
       act        Log  jotain        ==>       Bar    ${foo}
-      act if    '${foo}' == 'ok'    No Operation
+      act if    '${foo}' == 'ok'    ==>       No Operation
     End Actions
